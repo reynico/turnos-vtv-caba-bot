@@ -1,0 +1,26 @@
+services:
+  telegram_bot:
+    build: .
+    container_name: telegram_bot
+    volumes:
+      - ./data:/app/data
+    environment:
+      - TELEGRAM_BOT_API_KEY=${TELEGRAM_BOT_API_KEY}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DATABASE_PATH=/app/data/vtv_turnos.db
+    command: ["python", "telegram_bot.py"]
+
+  periodic_task:
+    build: .
+    container_name: periodic_task
+    volumes:
+      - ./data:/app/data
+    environment:
+      - TELEGRAM_BOT_API_KEY=${TELEGRAM_BOT_API_KEY}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DATABASE_PATH=/app/data/vtv_turnos.db
+    command: ["python", "periodic.py"]
+
+volumes:
+  data:
+    driver: local
