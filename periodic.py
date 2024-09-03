@@ -14,6 +14,8 @@ def update_turnos_periodically(conn):
                 if len(turnos) > 0:
                     logging.info(f"Found {len(turnos)} turnos on {month}/{year}")
                     store_turnos_in_db(conn, month, year, turnos)
+                else:
+                    logging.warning(f"No new turnos found on {month}/{year}")
         logging.info("Periodic action ran successfully, waiting 60 minutes for next round")
         time.sleep(3600)
 

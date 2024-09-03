@@ -30,8 +30,12 @@ def query_vtv(mes, year):
 
     response = requests.post(url, headers=headers, data=raw_data)
 
-    json_data = json.loads(response.content)
-    return json_data['result']
+    try:
+        json_data = json.loads(response.content)
+        return json_data['result']
+    except json.decoder.JSONDecodeError:
+        logging.error(f"Couldn't load turnos JSON data. Raw response: {response.content}")
+    return False
 
 
 def store_turnos_in_db(conn, month, year, turnos):
