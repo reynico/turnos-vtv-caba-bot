@@ -11,7 +11,7 @@ def update_turnos_periodically(conn):
         for year in years_to_check:
             for month in range(1, 13):
                 turnos = query_vtv(month, year)
-                if len(turnos) > 0:
+                if turnos and len(turnos) > 0:
                     logging.info(f"Found {len(turnos)} turnos on {month}/{year}")
                     store_turnos_in_db(conn, month, year, turnos)
                 else:
