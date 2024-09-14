@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turnos-vtv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: turnos-vtv
+  template:
+    metadata:
+      labels:
+        app: turnos-vtv
+    spec:
+      containers:
+      - name: telegram-bot
+        image: registry.home/turnos-vtv:latest
+        command: ["python", "telegram_bot.py"]
+        env:
+        - name: TELEGRAM_BOT_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: telegram-bot-secrets
+              key: TELEGRAM_BOT_API_KEY
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: DATABASE_PATH
+          value: "/app/data/vtv_turnos.db"
+        volumeMounts:
+        - name: sqlite-storage
+          mountPath: /app/data
+      volumes:
+      - name: sqlite-storage
+        persistentVolumeClaim:
+          claimName: sqlite-pvc
