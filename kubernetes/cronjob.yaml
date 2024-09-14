@@ -5,6 +5,8 @@ metadata:
   name: turnos-vtv-periodic-task
 spec:
   schedule: "*/15 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       template:
