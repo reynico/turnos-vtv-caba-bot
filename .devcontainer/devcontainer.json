@@ -4,5 +4,6 @@
 	"features": {
 		"ghcr.io/warrenbuckley/codespace-features/sqlite:1": {}
 	},
-	"postCreateCommand": "pip3 install --user -r requirements.txt"
+	"postCreateCommand": "pip3 install --user -r requirements.txt",
+	"shutdownAction": "stopContainer"
 }
